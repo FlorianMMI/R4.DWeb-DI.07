@@ -7,9 +7,10 @@ namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /* le nom de la classe doit être cohérent avec le nom du fichier */
-class TestController 
+class TestController extends AbstractController
 {
     // L'attribute #[Route] indique ici que l'on associe la route
     // "/" à la méthode home() pour que Symfony l'exécute chaque fois
@@ -18,7 +19,8 @@ class TestController
     #[Route('/', name: 'home')]
     public function home() :Response
     {
-        return new Response("<h1>Test de h1</h1>");
+        $msg = "Hello World !";
+        return $this->render('test.html.twig', ['msg' => $msg]); // Il part du pricipe que le fichier twig est dans le dossier templates
     }
 
     #[Route('/me', name : 'me')]
@@ -27,4 +29,5 @@ class TestController
         die ("Florian");
     }
 }
+
 
