@@ -4,22 +4,69 @@
 namespace App\Service;
 
 use App\Entity\Lego;
+use \PDO;
 
 class LegoService
 {
-    public function getLego(): Lego
-    {
-        $lego = new Lego(
-            10252,
-            "La coccinelle Volkwagen",
-            "Creator Expert"
-        );
-        $lego->setDescription("Construis une réplique LEGO® Creator Expert de l'automobile la plus populaire au monde. Ce magnifique modèle LEGO est plein de détails authentiques qui capturent le charme et la personnalité de la voiture, notamment un coloris bleu ciel, des ailes arrondies, des jantes blanches avec des enjoliveurs caractéristiques, des phares ronds et des clignotants montés sur les ailes.");
-        $lego->setPrice(94.99);
-        $lego->setPieces(1167);
-        $lego->setboxImage("LEGO_10252_Box.png");
-        $lego->setlegoImage("LEGO_10252_Main.jpg");
+    private PDO $pdo;
 
-        return $lego;
+    public function __construct()
+    {
+        $dsn = 'mysql:host=tp-symfony-mysql;dbname=lego_store';
+        $username = 'root';
+        $password = 'root';
+        $options = [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        ];
+
+        $this->pdo = new PDO($dsn, $username, $password, $options);
+    }
+    
+    public function getLegos(): array
+    {
+        $query = 'SELECT * FROM lego ';
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $legos = [];
+
+        foreach ($results as $row) {
+            $lego = new Lego($row['id'], $row['name'], $row['collection']);
+            $lego->setDescription($row['description']);
+            $lego->setPrice($row['price']);
+            $lego->setPieces($row['pieces']);
+            $lego->setboxImage($row['imagebox']);
+            $lego->setlegoImage($row['imagebg']);
+            $legos[] = $lego;
+        }
+        
+        
+
+        return $legos;
+        
+
+    }
+
+    public function getLegosCat($cat) : array
+    {
+        $query = 'SELECT * FROM lego WHERE collection = :cat';
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['cat' => $cat]);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $legos = [];
+
+        foreach ($results as $row) {
+            $lego = new Lego($row['id'], $row['name'], $row['collection']);
+            $lego->setDescription($row['description']);
+            $lego->setPrice($row['price']);
+            $lego->setPieces($row['pieces']);
+            $lego->setboxImage($row['imagebox']);
+            $lego->setlegoImage($row['imagebg']);
+            $legos[] = $lego;
+        }
+        
+        
+
+        return $legos;
     }
 }
