@@ -27,15 +27,68 @@ class LegoController extends AbstractController
 
     public function home(LegoService $legoService) : Response
     {
-        $lego = $legoService->getLego();
-        return $this->render('lego.html.twig', ['lego' => $lego]);
+        $legos = $legoService->getLegos();
+        $temp = "";
+        foreach ($legos as $test) {
+            $temp .= $this->renderView('lego.html.twig', ['lego' => $test]);
+        }
+
+        return new Response($temp); 
+        
+    }
+    #[Route('/{collection}', name: 'filter_by_collection')]
+    public function filter($collection, LegoService $legoService): Response
+    {
+        if ($collection == "creator_expert") {
+            $collection = "Creator Expert";
+        }
+        if ($collection == "star_wars") {
+            $collection = "Star Wars";
+        }
+        $legos = $legoService->getLegosCat($collection);
+        $temp = "";
+        foreach ($legos as $lego) {
+            $temp .= $this->renderView('lego.html.twig', ['lego' => $lego]);
+        }
+        return new Response($temp);
     }
 
-    #[Route('/me', name : 'me')]
-    public function me()
-    {
-        die ("Florian");
-    }
+    // #[Route('/creator', name : 'me')]
+    // public function creator(LegoService $legoService) : Response
+    // {
+    //     $legos = $legoService->getLegosCat("creator");
+    //     $temp = "";
+    //     foreach ($legos as $test) {
+    //         $temp .= $this->renderView('lego.html.twig', ['lego' => $test]);
+    //     }
+
+    //     return new Response($temp); 
+    // }
+
+    // #[Route('/star_wars', name : 'starwars')]
+    // public function starwars(LegoService $legoService) : Response
+    // {
+    //     $legos = $legoService->getLegosCat("Star Wars");
+    //     $temp = "";
+    //     foreach ($legos as $test) {
+    //         $temp .= $this->renderView('lego.html.twig', ['lego' => $test]);
+    //     }
+
+    //     return new Response($temp); 
+    // }
+
+    // #[Route('/creator_expert', name : 'creator_expert')]
+    // public function creator_expert(LegoService $legoService) : Response
+    // {
+    //     $legos = $legoService->getLegosCat("Creator Expert");
+    //     $temp = "";
+    //     foreach ($legos as $test) {
+    //         $temp .= $this->renderView('lego.html.twig', ['lego' => $test]);
+    //     }
+
+    //     return new Response($temp); 
+    // }
+    
 }
 
 
