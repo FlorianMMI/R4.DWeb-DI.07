@@ -42,7 +42,7 @@ CREATE TABLE `lego` (
 -- Déchargement des données de la table `lego`
 --
 
-INSERT INTO `lego` (`id`, `name`, `description`, `price`, `pieces`, `imagebox`, `imagebg`, `collection`) VALUES
+INSERT INTO `lego` (`id`, `name`, `description`, `price`, `pieces`, `box_image`, `lego_image`, `collection`) VALUES
 (10252, 'La coccinelle Volkwagen', 'Construis une réplique LEGO® Creator Expert de l\'automobile la plus populaire au monde. Ce magnifique modèle LEGO est plein de détails authentiques qui capturent le charme et la personnalité de la voiture, notamment un coloris bleu ciel, des ailes arrondies, des jantes blanches avec des enjoliveurs caractéristiques, des phares ronds et des clignotants montés sur les ailes.', 94.99, 1167, 'LEGO_10252_Box.png', 'LEGO_10252_Main.jpg', 'Creator Expert'),
 (10262, 'James Bond Aston Martin DB5', 'Get a license to build with the awesome LEGO® Creator Expert 10262 James Bond™ Aston Martin DB5. This impressive replica model captures the elegance and timeless sophistication of Agent 007’s iconic 1964 sports car, and comes with a wealth of authentic details and functioning gadgetry. ', 149.99, 1295, 'LEGO_10262_Box.jpg', 'LEGO_10262_Main.jpg', 'Creator Expert'),
 (31046, 'La voiture rapide', 'Prends la route avec cette splendide voiture de sport, avec des coloris jaune, blanc et noir, un énorme aileron, des jantes élégantes avec des pneus profil bas, un capot qui s\'ouvre et un moteur détaillé. Ouvre les portes ciseaux, mets-toi au volant, ouvre le toit et profite du soleil !', 19.99, 222, 'LEGO_31046_Box.png', 'LEGO_31046_Main.jpg', 'Creator'),
