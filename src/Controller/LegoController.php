@@ -11,6 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Lego;
 
 use App\Repository\LegoRepository ;
+use App\Entity\LegoCollection;
+use App\Repository\LegoCollectionRepository;
 
 /* le nom de la classe doit être cohérent avec le nom du fichier */
 class LegoController extends AbstractController
@@ -26,35 +28,25 @@ class LegoController extends AbstractController
     //     return $this->render('test.html.twig', ['msg' => $msg]); // Il part du pricipe que le fichier twig est dans le dossier templates
     // }
 
-    public function home(LegoRepository $legoRepository) : Response
+    public function home(LegoRepository  $legoRepository, LegoCollectionRepository $collectionRepository) 
     {
         $legos = $legoRepository->findAll();
-        $temp = "";
-        foreach ($legos as $test) {
-            $temp .= $this->renderView('lego.html.twig', ['lego' => $test]);
-        }
-
-        return new Response($temp); 
+        $cols = $collectionRepository->findAll();
+        
+        return $this->render('lego.html.twig', ['legos' => $legos, 'cols' => $cols]);
+        
         
     }
-    #[Route('/{collection}', name: 'filter_by_collection')]
-    public function filter($collection, LegoRepository $legoRepository): Response
+
+    #[Route('/collections/{id}', 'test')]
+    public function test( LegoCollection $collection , LegoCollectionRepository $collectionRepository)
     {
-        if ($collection == "creator_expert") {
-            $collection = "Creator Expert";
-        }
-        if ($collection == "star_wars") {
-            $collection = "Star Wars";
-        }
-        $legos = $legoRepository->findbycat($collection);
-        $temp = "";
-        foreach ($legos as $lego) {
-            $temp .= $this->renderView('lego.html.twig', ['lego' => $lego]);
-        }
-        return new Response($temp);
+        $legos = $collection->getLegos();
+        $cols = $collectionRepository->findAll();
+        return $this->render('lego.html.twig', ['legos' => $legos, 'cols' => $cols]);
     }
 
- 
+
     
 }
 
