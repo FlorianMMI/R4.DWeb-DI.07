@@ -25,6 +25,8 @@ class LegoRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    
+
     //    /**
     //     * @return Lego[] Returns an array of Lego objects
     //     */

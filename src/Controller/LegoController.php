@@ -30,9 +30,17 @@ class LegoController extends AbstractController
 
     public function home(LegoRepository  $legoRepository, LegoCollectionRepository $collectionRepository) 
     {
-        $legos = $legoRepository->findAll();
-        $cols = $collectionRepository->findAll();
         
+        
+        $cols = $collectionRepository->findAll();
+        if (!$this->getUser()) {
+            $cols = array_filter($cols, function($col) {
+                return $col->ismemberonly() == 0;
+            });
+        }
+
+        
+        dump($cols);
         return $this->render('lego.html.twig', ['legos' => $legos, 'cols' => $cols]);
         
         
@@ -41,8 +49,15 @@ class LegoController extends AbstractController
     #[Route('/collections/{id}', 'test')]
     public function test( LegoCollection $collection , LegoCollectionRepository $collectionRepository)
     {
+
+
         $legos = $collection->getLegos();
         $cols = $collectionRepository->findAll();
+        foreach ($cols as $col) {
+            if ($col->ismemberonly() == 1 && !$this->getUser()) {
+                return $this->redirectToRoute('home');
+            }
+        }
         return $this->render('lego.html.twig', ['legos' => $legos, 'cols' => $cols]);
     }
 

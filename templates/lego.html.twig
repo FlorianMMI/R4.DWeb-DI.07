@@ -15,7 +15,9 @@
 <nav>
         <a href="/">All</a>
         {% for col in cols %}
-        <a href="/collections/{{col.id}}">{{col.name}}</a>
+        {% if col.memberonly != 1 or app.user %}
+          <a href="/collections/{{ col.id }}">{{ col.name }}</a>
+        {% endif %}
         {% endfor %}
         {% if app.user %}
         Bonjour {{ app.user.email }} !

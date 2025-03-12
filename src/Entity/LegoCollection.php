@@ -24,6 +24,9 @@ class LegoCollection
     #[ORM\OneToMany(targetEntity: Lego::class, mappedBy: 'collection')]
     private Collection $legos;
 
+    #[ORM\Column]
+    private ?bool $memberOnly = null;
+
     public function __construct()
     {
         $this->legos = new ArrayCollection();
@@ -45,6 +48,7 @@ class LegoCollection
 
         return $this;
     }
+
 
     /**
      * @return Collection<int, Lego>
@@ -72,6 +76,18 @@ class LegoCollection
                 $lego->setCollection(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isMemberOnly(): ?bool
+    {
+        return $this->memberOnly;
+    }
+
+    public function setMemberOnly(bool $memberOnly): static
+    {
+        $this->memberOnly = $memberOnly;
 
         return $this;
     }
