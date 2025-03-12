@@ -33,6 +33,12 @@ class SecurityController extends AbstractController
                 'error' => $error
         ]);
     }
+
+    #[Route('/logout', name: 'lego_store_logout')]
+    public function logout()
+    {
+        // controller can be blank: it will never be executed!
+    }    
     
     
 

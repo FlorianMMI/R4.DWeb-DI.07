@@ -17,6 +17,12 @@
         {% for col in cols %}
         <a href="/collections/{{col.id}}">{{col.name}}</a>
         {% endfor %}
+        {% if app.user %}
+        Bonjour {{ app.user.email }} !
+        <a href="{{ path('lego_store_logout') }}">Logout</a>
+        {% else %}
+        <a href="/login">Login</a>
+        {% endif %}
 </nav>
 
 {% for lego in legos %}
