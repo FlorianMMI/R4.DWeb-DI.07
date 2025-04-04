@@ -22,11 +22,7 @@ class LegoController extends AbstractController
     // que l'on accède à la racine de notre site.
 
     #[Route('/', name: 'home')]
-    // public function home() :Response
-    // {
-    //     $msg = "Hello World !";
-    //     return $this->render('test.html.twig', ['msg' => $msg]); // Il part du pricipe que le fichier twig est dans le dossier templates
-    // }
+
 
     public function home(LegoRepository  $legoRepository, LegoCollectionRepository $collectionRepository) 
     {
@@ -39,8 +35,8 @@ class LegoController extends AbstractController
             });
         }
 
-        
-        dump($cols);
+        $legos = $legoRepository->findAll();
+
         return $this->render('lego.html.twig', ['legos' => $legos, 'cols' => $cols]);
         
         
